@@ -1,7 +1,9 @@
 package com.study.project.controllers;
 
 import com.study.project.models.Illness;
+import com.study.project.models.Manufacturer;
 import com.study.project.models.Medication;
+import com.study.project.repo.ManufacturerRepository;
 import com.study.project.repo.MedicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -20,6 +23,9 @@ public class MedicationsController {
 
     @Autowired
     private MedicationRepository medicationRepository;
+    @Autowired
+    private ManufacturerRepository manufacturerRepository;
+
 
     @GetMapping("/medications")
     public String medications(Model model) {
@@ -34,8 +40,22 @@ public class MedicationsController {
     }
 
     @PostMapping("/medications/add")
-    public String addMedication(@RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount,  Model model) {
-        Medication medication = new Medication(name, price, expiration_date, amount);
+    public String addMedication(@RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, @RequestParam String manufacturer_name, @RequestParam String manufacturer_country, Model model) {
+        //TODO: add services and make functions there
+        Iterable<Manufacturer> manufacturers = manufacturerRepository.findAll();
+        Manufacturer manufacturer = null;
+        for (Manufacturer m : manufacturers) {
+            if (m.getCompanyName().equals(manufacturer_name) && m.getCountry().equals(manufacturer_country)) {
+                manufacturer = m;
+                break;
+            }
+        }
+        if (manufacturer == null) {
+            manufacturer = new Manufacturer(manufacturer_country, manufacturer_name);
+        }
+        Medication medication = new Medication(name, price, manufacturer, expiration_date, amount);
+        manufacturer.addMedication(medication);
+        manufacturerRepository.save(manufacturer);
         medicationRepository.save(medication);
         return "redirect:/medications";
     }

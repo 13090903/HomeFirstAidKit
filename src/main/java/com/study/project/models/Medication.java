@@ -6,16 +6,21 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "medication")
 public class Medication {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String name;
     private Long price;
 
-    @JsonFormat(pattern="dd-MM-yyyy")
+    @ManyToOne
+    @JoinColumn(name = "manufacturer_id", nullable = false)
+    private Manufacturer manufacturer;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate expirationDate;
     private Long amount;
 
@@ -25,6 +30,14 @@ public class Medication {
     public Medication(String name, Long price, LocalDate expirationDate, Long amount) {
         this.name = name;
         this.price = price;
+        this.expirationDate = expirationDate;
+        this.amount = amount;
+    }
+
+    public Medication(String name, Long price, Manufacturer manufacturer, LocalDate expirationDate, Long amount) {
+        this.name = name;
+        this.price = price;
+        this.manufacturer = manufacturer;
         this.expirationDate = expirationDate;
         this.amount = amount;
     }
@@ -67,5 +80,13 @@ public class Medication {
 
     public void setAmount(Long amount) {
         this.amount = amount;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 }

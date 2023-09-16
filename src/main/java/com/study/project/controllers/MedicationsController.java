@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -73,7 +72,8 @@ public class MedicationsController {
     }
 
     @PostMapping("/medications/{id}/edit")
-    public String editMedication(@PathVariable(value = "id") long medicationID, @RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount,  Model model) {
+    public String editMedication(@PathVariable(value = "id") long medicationID, @RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, Model model) {
+        //TODO: similar code for finding manufacturer and checking s-thing -> need to add service
         Medication medication = medicationRepository.findById(medicationID).orElseThrow();
         medication.setName(name);
         medication.setPrice(price);
@@ -83,20 +83,9 @@ public class MedicationsController {
         return "redirect:/medications";
     }
 
-    @GetMapping("/medications/{id}/remove")
-    public String medicationRemove(@PathVariable(value = "id") long medicationID, Model model) {
-        if (!medicationRepository.existsById(medicationID)) {
-            return "redirect:/medications";
-        }
-        Optional<Medication> medication = medicationRepository.findById(medicationID);
-        ArrayList<Medication> res = new ArrayList<>();
-        medication.ifPresent(res::add);
-        model.addAttribute("medication", res);
-        return "medication-remove";
-    }
-
     @PostMapping("/medications/{id}/remove")
     public String removeMedication(@PathVariable(value = "id") long medicationID, Model model) {
+        //TODO: manufacturer remove too
         Medication medication = medicationRepository.findById(medicationID).orElseThrow();
         medicationRepository.delete(medication);
         return "redirect:/medications";

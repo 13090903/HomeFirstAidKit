@@ -34,6 +34,6 @@ public class SymptomsController {
         ArrayList<Symptom> res = new ArrayList<>();
         symptom.ifPresent(res::add);
         model.addAttribute("symptom", res);
-        return "illness-description";
+        return "symptoms-description";
     }
 }

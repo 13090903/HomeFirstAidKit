@@ -9,7 +9,7 @@
 <header th:insert="~{blocks/header :: header}"></header>
 
 <div class="container mt-5">
-    <div th:each="el : ${symptoms}" class="alert alert-info mt-2">
+    <div th:each="el : ${symptom}" class="alert alert-info mt-2">
         <h1 th:text="${el.name}"></h1>
         <p th:text="${el.description}"></p>
     </div>

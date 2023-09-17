@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "medication")
@@ -23,6 +24,9 @@ public class Medication {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate expirationDate;
     private Long amount;
+
+    @OneToMany(mappedBy = "medication")
+    Set<MedicationFromIllness> medicationFromIllnesses;
 
     public Medication() {
     }

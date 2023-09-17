@@ -1,5 +1,6 @@
 package com.study.project;
 
+import com.study.project.models.Illness;
 import com.study.project.repo.IllnessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -17,7 +18,7 @@ public class DataLoader implements ApplicationRunner {
     }
 
     public void run(ApplicationArguments args) {
-//        for (int i = 0; i < 10; i++) {
+//        for (int i = 0; i < 1001; i++) {
 //            illnessRepository.save(new Illness("Болезнь", "Какая-то болезнь"));
 //        }
     }

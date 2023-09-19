@@ -93,4 +93,12 @@ public class Medication {
     public void setManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
     }
+
+    public Set<MedicationFromIllness> getMedicationFromIllnesses() {
+        return medicationFromIllnesses;
+    }
+
+    public void setMedicationFromIllnesses(Set<MedicationFromIllness> medicationFromIllnesses) {
+        this.medicationFromIllnesses = medicationFromIllnesses;
+    }
 }

@@ -2,6 +2,8 @@ package com.study.project.models;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "symptom")
 public class Symptom {
@@ -13,6 +15,9 @@ public class Symptom {
     private String name;
 
     private String description;
+
+    @OneToMany(mappedBy = "symptom")
+    Set<IllnessSymptom> illnessSymptoms;
 
     public Symptom() {
     }
@@ -44,5 +49,13 @@ public class Symptom {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<IllnessSymptom> getIllnessSymptoms() {
+        return illnessSymptoms;
+    }
+
+    public void setIllnessSymptoms(Set<IllnessSymptom> illnessSymptoms) {
+        this.illnessSymptoms = illnessSymptoms;
     }
 }

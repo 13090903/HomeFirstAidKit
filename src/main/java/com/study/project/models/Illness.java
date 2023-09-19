@@ -19,6 +19,9 @@ public class Illness {
     @OneToMany(mappedBy = "illness")
     Set<MedicationFromIllness> medicationFromIllnesses;
 
+    @OneToMany(mappedBy = "illness")
+    Set<IllnessSymptom> illnessSymptoms;
+
     public Illness() {
     }
 
@@ -49,5 +52,21 @@ public class Illness {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<MedicationFromIllness> getMedicationFromIllnesses() {
+        return medicationFromIllnesses;
+    }
+
+    public void setMedicationFromIllnesses(Set<MedicationFromIllness> medicationFromIllnesses) {
+        this.medicationFromIllnesses = medicationFromIllnesses;
+    }
+
+    public Set<IllnessSymptom> getIllnessSymptoms() {
+        return illnessSymptoms;
+    }
+
+    public void setIllnessSymptoms(Set<IllnessSymptom> illnessSymptoms) {
+        this.illnessSymptoms = illnessSymptoms;
     }
 }

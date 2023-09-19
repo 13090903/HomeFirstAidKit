@@ -7,8 +7,4 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ManufacturerController {
 
-    @Autowired
-    ManufacturerRepository manufacturerRepository;
-
-
 }

@@ -3,6 +3,7 @@ package com.study.project.controllers;
 import com.study.project.models.Illness;
 import com.study.project.models.Symptom;
 import com.study.project.repo.SymptomRepository;
+import com.study.project.services.SymptomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,24 +17,21 @@ import java.util.Optional;
 public class SymptomsController {
 
     @Autowired
-    private SymptomRepository symptomRepository;
+    private SymptomService symptomService;
 
     @GetMapping("/symptoms")
     public String symptoms(Model model) {
-        Iterable<Symptom> symptoms = symptomRepository.findAll();
+        Iterable<Symptom> symptoms = symptomService.findAll();
         model.addAttribute("symptoms", symptoms);
         return "symptoms";
     }
 
     @GetMapping("/symptoms/{id}")
     public String symptomsDescription(@PathVariable(value = "id") long symptomID, Model model) {
-        if (!symptomRepository.existsById(symptomID)) {
+        if (!symptomService.existsById(symptomID)) {
             return "redirect:/symptoms";
         }
-        Optional<Symptom> symptom = symptomRepository.findById(symptomID);
-        ArrayList<Symptom> res = new ArrayList<>();
-        symptom.ifPresent(res::add);
-        model.addAttribute("symptom", res);
+        model.addAttribute("symptom", symptomService.findByIdList(symptomID));
         return "symptoms-description";
     }
 }

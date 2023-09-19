@@ -5,6 +5,8 @@ import com.study.project.models.Manufacturer;
 import com.study.project.models.Medication;
 import com.study.project.repo.ManufacturerRepository;
 import com.study.project.repo.MedicationRepository;
+import com.study.project.services.ManufacturerService;
+import com.study.project.services.MedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,14 +23,13 @@ import java.util.Optional;
 public class MedicationsController {
 
     @Autowired
-    private MedicationRepository medicationRepository;
+    private MedicationService medicationService;
     @Autowired
-    private ManufacturerRepository manufacturerRepository;
-
+    private ManufacturerService manufacturerService;
 
     @GetMapping("/medications")
     public String medications(Model model) {
-        Iterable<Medication> medications = medicationRepository.findAll();
+        Iterable<Medication> medications = medicationService.findAll();
         model.addAttribute("medications", medications);
         return "medications";
     }
@@ -41,53 +42,31 @@ public class MedicationsController {
     @PostMapping("/medications/add")
     public String addMedication(@RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, @RequestParam String manufacturer_name, @RequestParam String manufacturer_country, Model model) {
         //TODO: add services and make functions there
-        Iterable<Manufacturer> manufacturers = manufacturerRepository.findAll();
-        Manufacturer manufacturer = null;
-        for (Manufacturer m : manufacturers) {
-            if (m.getCompanyName().equals(manufacturer_name) && m.getCountry().equals(manufacturer_country)) {
-                manufacturer = m;
-                break;
-            }
-        }
-        if (manufacturer == null) {
-            manufacturer = new Manufacturer(manufacturer_country, manufacturer_name);
-        }
-        Medication medication = new Medication(name, price, manufacturer, expiration_date, amount);
+        Manufacturer manufacturer = manufacturerService.existByParamsOrElseCreate(manufacturer_name, manufacturer_country);
+        Medication medication = medicationService.create(name, price, manufacturer, expiration_date, amount);
         manufacturer.addMedication(medication);
-        manufacturerRepository.save(manufacturer);
-        medicationRepository.save(medication);
         return "redirect:/medications";
     }
 
     @GetMapping("/medications/{id}/edit")
     public String medicationEdit(@PathVariable(value = "id") long medicationID, Model model) {
-        if (!medicationRepository.existsById(medicationID)) {
+        if (!medicationService.existsById(medicationID)) {
             return "redirect:/medications";
         }
-        Optional<Medication> medication = medicationRepository.findById(medicationID);
-        ArrayList<Medication> res = new ArrayList<>();
-        medication.ifPresent(res::add);
-        model.addAttribute("medication", res);
+        model.addAttribute("medication", medicationService.findByIdList(medicationID));
         return "medication-edit";
     }
 
     @PostMapping("/medications/{id}/edit")
     public String editMedication(@PathVariable(value = "id") long medicationID, @RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, Model model) {
-        //TODO: similar code for finding manufacturer and checking s-thing -> need to add service
-        Medication medication = medicationRepository.findById(medicationID).orElseThrow();
-        medication.setName(name);
-        medication.setPrice(price);
-        medication.setAmount(amount);
-        medication.setExpirationDate(expiration_date);
-        medicationRepository.save(medication);
+        medicationService.update(medicationID, name, expiration_date, price, amount);
         return "redirect:/medications";
     }
 
     @PostMapping("/medications/{id}/remove")
     public String removeMedication(@PathVariable(value = "id") long medicationID, Model model) {
         //TODO: manufacturer remove too
-        Medication medication = medicationRepository.findById(medicationID).orElseThrow();
-        medicationRepository.delete(medication);
+        medicationService.deleteById(medicationID);
         return "redirect:/medications";
     }
 

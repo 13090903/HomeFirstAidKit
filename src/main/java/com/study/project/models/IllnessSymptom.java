@@ -17,4 +17,33 @@ public class IllnessSymptom {
     @MapsId("symptomId")
     @JoinColumn(name = "symptom_id")
     Symptom symptom;
+
+    public IllnessSymptom(Illness illness, Symptom symptom) {
+        this.illness = illness;
+        this.symptom = symptom;
+    }
+
+    public IllnessSymptomKey getId() {
+        return id;
+    }
+
+    public void setId(IllnessSymptomKey id) {
+        this.id = id;
+    }
+
+    public Illness getIllness() {
+        return illness;
+    }
+
+    public void setIllness(Illness illness) {
+        this.illness = illness;
+    }
+
+    public Symptom getSymptom() {
+        return symptom;
+    }
+
+    public void setSymptom(Symptom symptom) {
+        this.symptom = symptom;
+    }
 }

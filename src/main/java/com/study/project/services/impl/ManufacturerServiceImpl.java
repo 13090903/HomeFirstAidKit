@@ -2,6 +2,7 @@ package com.study.project.services.impl;
 
 import com.study.project.models.Illness;
 import com.study.project.models.Manufacturer;
+import com.study.project.models.Medication;
 import com.study.project.repo.ManufacturerRepository;
 import com.study.project.services.ManufacturerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,17 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     }
 
     @Override
+    public Manufacturer existByParams(String companyName, String country) {
+        Iterable<Manufacturer> manufacturers = manufacturerRepository.findAll();
+        for (Manufacturer m : manufacturers) {
+            if (m.getCompanyName().equals(companyName) && m.getCountry().equals(country)) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public boolean existsById(Long id) {
         return manufacturerRepository.existsById(id);
     }
@@ -65,5 +77,28 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         Manufacturer manufacturer = new Manufacturer(country, companyName);
         manufacturerRepository.save(manufacturer);
         return manufacturer;
+    }
+
+    @Override
+    public void update(Long id, String companyName, String country) {
+        Manufacturer manufacturer = existByParams(companyName, country);
+        if (manufacturer == null) {
+            create(companyName, country);
+        }
+    }
+
+    @Override
+    public void deleteUseless() {
+        for (Manufacturer m : findAll()) {
+            if (m.getMedications().size() == 0) {
+                deleteById(m.getId());
+            }
+        }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Manufacturer manufacturer = findById(id);
+        manufacturerRepository.delete(manufacturer);
     }
 }

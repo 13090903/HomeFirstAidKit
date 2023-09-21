@@ -2,6 +2,7 @@ package com.study.project.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,7 +16,7 @@ public class Manufacturer {
     private String country;
 
     @OneToMany(mappedBy="manufacturer")
-    private Set<Medication> medications;
+    private Set<Medication> medications  = new HashSet<>();
 
     private String companyName;
 

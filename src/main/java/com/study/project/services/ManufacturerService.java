@@ -14,7 +14,16 @@ public interface ManufacturerService {
 
     Manufacturer existByParamsOrElseCreate(String companyName, String country);
 
+    Manufacturer existByParams(String companyName, String country);
+
     boolean existsById(Long id);
 
     Manufacturer create(String companyName, String country);
+
+    void update(Long id, String companyName, String country);
+
+    void deleteUseless();
+
+    void deleteById(Long id);
+
 }

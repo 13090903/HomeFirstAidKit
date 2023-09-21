@@ -41,10 +41,8 @@ public class MedicationsController {
 
     @PostMapping("/medications/add")
     public String addMedication(@RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, @RequestParam String manufacturer_name, @RequestParam String manufacturer_country, Model model) {
-        //TODO: add services and make functions there
         Manufacturer manufacturer = manufacturerService.existByParamsOrElseCreate(manufacturer_name, manufacturer_country);
         Medication medication = medicationService.create(name, price, manufacturer, expiration_date, amount);
-        manufacturer.addMedication(medication);
         return "redirect:/medications";
     }
 
@@ -58,14 +56,20 @@ public class MedicationsController {
     }
 
     @PostMapping("/medications/{id}/edit")
-    public String editMedication(@PathVariable(value = "id") long medicationID, @RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, Model model) {
-        medicationService.update(medicationID, name, expiration_date, price, amount);
+    public String editMedication(@PathVariable(value = "id") long medicationID, @RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, @RequestParam String manufacturer_name, @RequestParam String manufacturer_country, Model model) {
+        Long manufacturerId = medicationService.findManufacturerByMedicationId(medicationID).getId();
+        Manufacturer manufacturer = manufacturerService.findById(manufacturerId);
+        manufacturer.removeMedication(medicationService.findById(medicationID));
+        manufacturerService.update(manufacturerId, manufacturer_name, manufacturer_country);
+        Manufacturer newManufacturer = manufacturerService.existByParams(manufacturer_name, manufacturer_country);
+        newManufacturer.addMedication(medicationService.findById(medicationID));
+        medicationService.update(medicationID, name, expiration_date, price, amount, newManufacturer);
+        manufacturerService.deleteUseless();
         return "redirect:/medications";
     }
 
     @PostMapping("/medications/{id}/remove")
     public String removeMedication(@PathVariable(value = "id") long medicationID, Model model) {
-        //TODO: manufacturer remove too
         medicationService.deleteById(medicationID);
         return "redirect:/medications";
     }

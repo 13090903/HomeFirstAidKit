@@ -49,13 +49,15 @@ public class MedicationServiceImpl implements MedicationService {
     @Override
     public Medication create(String name, Long price, Manufacturer manufacturer, LocalDate expirationDate, Long amount) {
         Medication medication = new Medication(name, price, manufacturer, expirationDate, amount);
+        manufacturer.addMedication(medication);
         medicationRepository.save(medication);
         return medication;
     }
 
     @Override
-    public void update(Long id, String name, LocalDate expiration_date, Long price, Long amount) {
+    public void update(Long id, String name, LocalDate expiration_date, Long price, Long amount, Manufacturer manufacturer) {
         Medication medication = medicationRepository.findById(id).orElseThrow();
+        medication.setManufacturer(manufacturer);
         medication.setName(name);
         medication.setPrice(price);
         medication.setAmount(amount);
@@ -66,6 +68,17 @@ public class MedicationServiceImpl implements MedicationService {
     @Override
     public void deleteById(Long id) {
         Medication medication = medicationRepository.findById(id).orElseThrow();
+        Manufacturer manufacturer = medication.getManufacturer();
+        manufacturer.getMedications().remove(medication);
         medicationRepository.delete(medication);
+    }
+
+    @Override
+    public Manufacturer findManufacturerByMedicationId(Long id) {
+        Medication medication = findById(id);
+        if (medication != null) {
+            return medication.getManufacturer();
+        }
+        return null;
     }
 }

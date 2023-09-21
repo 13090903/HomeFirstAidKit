@@ -18,7 +18,9 @@ public interface MedicationService {
 
     Medication create(String name, Long price, Manufacturer manufacturer, LocalDate expirationDate, Long amount);
 
-    void update(Long id, String name, LocalDate expiration_date, Long price, Long amount);
+    void update(Long id, String name, LocalDate expiration_date, Long price, Long amount, Manufacturer manufacturer);
 
     void deleteById(Long id);
+
+    Manufacturer findManufacturerByMedicationId(Long id);
 }

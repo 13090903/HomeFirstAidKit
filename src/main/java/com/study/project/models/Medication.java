@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,7 +27,7 @@ public class Medication {
     private Long amount;
 
     @OneToMany(mappedBy = "medication")
-    Set<MedicationFromIllness> medicationFromIllnesses;
+    Set<MedicationFromIllness> medicationFromIllnesses  = new HashSet<>();
 
     public Medication() {
     }

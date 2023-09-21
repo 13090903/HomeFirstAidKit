@@ -2,6 +2,7 @@ package com.study.project.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,10 +18,10 @@ public class Illness {
     private String description;
 
     @OneToMany(mappedBy = "illness")
-    Set<MedicationFromIllness> medicationFromIllnesses;
+    Set<MedicationFromIllness> medicationFromIllnesses = new HashSet<>();
 
     @OneToMany(mappedBy = "illness")
-    Set<IllnessSymptom> illnessSymptoms;
+    Set<IllnessSymptom> illnessSymptoms  = new HashSet<>();
 
     public Illness() {
     }

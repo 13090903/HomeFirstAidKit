@@ -22,8 +22,8 @@ public interface ManufacturerService {
 
     void update(Long id, String companyName, String country);
 
-    void deleteUseless();
-
     void deleteById(Long id);
+
+    void deleteUselessById(Long id);
 
 }

@@ -88,17 +88,16 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     }
 
     @Override
-    public void deleteUseless() {
-        for (Manufacturer m : findAll()) {
-            if (m.getMedications().size() == 0) {
-                deleteById(m.getId());
-            }
-        }
-    }
-
-    @Override
     public void deleteById(Long id) {
         Manufacturer manufacturer = findById(id);
         manufacturerRepository.delete(manufacturer);
+    }
+
+    @Override
+    public void deleteUselessById(Long id) {
+        Manufacturer exManufacturer = findById(id);
+        if (exManufacturer.getMedications().size() == 0) {
+            deleteById(id);
+        }
     }
 }

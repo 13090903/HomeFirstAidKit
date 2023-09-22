@@ -64,7 +64,7 @@ public class MedicationsController {
         Manufacturer newManufacturer = manufacturerService.existByParams(manufacturer_name, manufacturer_country);
         newManufacturer.addMedication(medicationService.findById(medicationID));
         medicationService.update(medicationID, name, expiration_date, price, amount, newManufacturer);
-        manufacturerService.deleteUseless();
+        manufacturerService.deleteUselessById(manufacturerId);
         return "redirect:/medications";
     }
 

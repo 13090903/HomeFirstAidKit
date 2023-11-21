@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <title>Болезни</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<header th:insert="~{blocks/header :: header}"></header>
+
+<div class="container mt-5 mb-5">
+  <h1>Добавление болезни</h1>
+  <form action="/illnesses/add" method="post">
+    <input type="text" name="name" placeholder="Введите название" class="form-control"><br>
+    <input type="text" name="description" placeholder="Введите описание" class="form-control"><br>
+    <button type="submit" class="btn btn-success">Добавить</button>
+  </form>
+</div>
+
+<footer th:insert="~{blocks/footer :: footer}"></footer>
+
+</body>
+</html>

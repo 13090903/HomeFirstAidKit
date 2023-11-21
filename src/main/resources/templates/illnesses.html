@@ -12,7 +12,11 @@
   <h1>Болезни</h1>
   <div th:each="el : ${illnesses}" class="alert alert-info mt-2">
     <h3 th:text="${el.name}"></h3>
-    <a th:href="'/illnesses/' + ${el.id}" class="btn btn-warning">Детальнее</a>
+    <br><a th:href="'/illnesses/' + ${el.id}" class="btn btn-success">Детальнее</a><br>
+    <br><a th:href="'/illnesses/' + ${el.id} + '/edit'" class="btn btn-warning">Редактировать</a>
+    <form th:action="'/illnesses/' + ${el.id} + '/remove'" method="post" style="display: inline-block;">
+      <button type="submit" class="btn btn-warning">Удалить</button>
+    </form><br>
   </div>
 </div>
 

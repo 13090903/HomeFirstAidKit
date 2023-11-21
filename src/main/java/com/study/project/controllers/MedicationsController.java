@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Controller
 public class MedicationsController {

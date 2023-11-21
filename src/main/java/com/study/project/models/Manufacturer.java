@@ -11,7 +11,7 @@ public class Manufacturer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String country;
 
@@ -28,12 +28,13 @@ public class Manufacturer {
         this.companyName = companyName;
     }
 
+
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getCountry() {

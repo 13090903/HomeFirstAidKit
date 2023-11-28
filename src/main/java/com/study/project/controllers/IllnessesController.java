@@ -5,13 +5,11 @@ import com.study.project.models.Manufacturer;
 import com.study.project.models.Medication;
 import com.study.project.repo.IllnessRepository;
 import com.study.project.services.IllnessService;
+import com.study.project.util.exceptions.IllnessNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,10 +30,7 @@ public class IllnessesController {
 
     @GetMapping("/illnesses/{id}")
     public String illnessDescription(@PathVariable(value = "id") long illnessID, Model model) {
-        if (!illnessService.existsById(illnessID)) {
-            return "redirect:/illnesses";
-        }
-        model.addAttribute("illness", illnessService.findByIdList(illnessID));
+        model.addAttribute("illness", illnessService.findById(illnessID));
         return "illness-description";
     }
 
@@ -52,10 +47,7 @@ public class IllnessesController {
 
     @GetMapping("/illnesses/{id}/edit")
     public String illnessEdit(@PathVariable(value = "id") long illnessID, Model model) {
-        if (!illnessService.existsById(illnessID)) {
-            return "redirect:/illnesses";
-        }
-        model.addAttribute("illness", illnessService.findByIdList(illnessID));
+        model.addAttribute("illness", illnessService.findById(illnessID));
         return "illness-edit";
     }
 

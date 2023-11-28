@@ -1,15 +1,12 @@
 package com.study.project.services.impl;
 
 import com.study.project.models.Illness;
-import com.study.project.models.Manufacturer;
-import com.study.project.models.Medication;
 import com.study.project.repo.IllnessRepository;
 import com.study.project.services.IllnessService;
+import com.study.project.util.exceptions.IllnessNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,19 +18,8 @@ public class IllnessServiceImpl implements IllnessService {
 
     @Override
     public Illness findById(Long id) {
-        List<Illness> illnesses = findByIdList(id);
-        if (illnesses.size() != 0) {
-            return illnesses.get(0);
-        }
-        return null;
-    }
-
-    @Override
-    public List<Illness> findByIdList(Long id) {
         Optional<Illness> illness = illnessRepository.findById(id);
-        List<Illness> res = new ArrayList<>();
-        illness.ifPresent(res::add);
-        return res;
+        return illness.orElseThrow(IllnessNotFoundException::new);
     }
 
     @Override

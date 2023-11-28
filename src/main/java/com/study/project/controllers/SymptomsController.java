@@ -25,10 +25,7 @@ public class SymptomsController {
 
     @GetMapping("/symptoms/{id}")
     public String symptomsDescription(@PathVariable(value = "id") long symptomID, Model model) {
-        if (!symptomService.existsById(symptomID)) {
-            return "redirect:/symptoms";
-        }
-        model.addAttribute("symptom", symptomService.findByIdList(symptomID));
+        model.addAttribute("symptom", symptomService.findById(symptomID));
         return "symptoms-description";
     }
 }

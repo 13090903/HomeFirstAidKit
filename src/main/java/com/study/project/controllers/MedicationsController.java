@@ -46,10 +46,7 @@ public class MedicationsController {
 
     @GetMapping("/medications/{id}/edit")
     public String medicationEdit(@PathVariable(value = "id") long medicationID, Model model) {
-        if (!medicationService.existsById(medicationID)) {
-            return "redirect:/medications";
-        }
-        model.addAttribute("medication", medicationService.findByIdList(medicationID));
+        model.addAttribute("medication", medicationService.findById(medicationID));
         return "medication-edit";
     }
 

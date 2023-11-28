@@ -1,10 +1,12 @@
 package com.study.project.services.impl;
 
+import com.study.project.models.Illness;
 import com.study.project.models.Manufacturer;
 import com.study.project.models.Medication;
 import com.study.project.models.Symptom;
 import com.study.project.repo.MedicationRepository;
 import com.study.project.services.MedicationService;
+import com.study.project.util.exceptions.IllnessNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +23,8 @@ public class MedicationServiceImpl implements MedicationService {
 
     @Override
     public Medication findById(Long id) {
-        List<Medication> medications = findByIdList(id);
-        if (medications.size() != 0) {
-            return medications.get(0);
-        }
-        return null;
-    }
-
-    @Override
-    public List<Medication> findByIdList(Long id) {
         Optional<Medication> medication = medicationRepository.findById(id);
-        List<Medication> res = new ArrayList<>();
-        medication.ifPresent(res::add);
-        return res;
+        return medication.orElseThrow(IllnessNotFoundException::new);
     }
 
     @Override

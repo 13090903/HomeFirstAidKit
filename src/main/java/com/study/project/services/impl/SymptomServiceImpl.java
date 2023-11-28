@@ -4,6 +4,7 @@ import com.study.project.models.Illness;
 import com.study.project.models.Symptom;
 import com.study.project.repo.SymptomRepository;
 import com.study.project.services.SymptomService;
+import com.study.project.util.exceptions.IllnessNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,19 +20,8 @@ public class SymptomServiceImpl implements SymptomService {
 
     @Override
     public Symptom findById(Long id) {
-        List<Symptom> symptoms = findByIdList(id);
-        if (symptoms.size() != 0) {
-            return symptoms.get(0);
-        }
-        return null;
-    }
-
-    @Override
-    public List<Symptom> findByIdList(Long id) {
         Optional<Symptom> symptom = symptomRepository.findById(id);
-        List<Symptom> res = new ArrayList<>();
-        symptom.ifPresent(res::add);
-        return res;
+        return symptom.orElseThrow(IllnessNotFoundException::new);
     }
 
     @Override

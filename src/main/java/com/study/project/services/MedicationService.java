@@ -10,8 +10,6 @@ import java.util.List;
 public interface MedicationService {
     Medication findById(Long id);
 
-    List<Medication> findByIdList(Long id);
-
     Iterable<Medication> findAll();
 
     boolean existsById(Long id);

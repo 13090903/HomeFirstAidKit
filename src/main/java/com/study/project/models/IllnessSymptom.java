@@ -1,7 +1,11 @@
 package com.study.project.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class IllnessSymptom {
 
@@ -20,30 +24,6 @@ public class IllnessSymptom {
 
     public IllnessSymptom(Illness illness, Symptom symptom) {
         this.illness = illness;
-        this.symptom = symptom;
-    }
-
-    public IllnessSymptomKey getId() {
-        return id;
-    }
-
-    public void setId(IllnessSymptomKey id) {
-        this.id = id;
-    }
-
-    public Illness getIllness() {
-        return illness;
-    }
-
-    public void setIllness(Illness illness) {
-        this.illness = illness;
-    }
-
-    public Symptom getSymptom() {
-        return symptom;
-    }
-
-    public void setSymptom(Symptom symptom) {
         this.symptom = symptom;
     }
 }

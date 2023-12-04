@@ -1,10 +1,14 @@
 package com.study.project.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "manufacturer")
 public class Manufacturer {
@@ -28,37 +32,12 @@ public class Manufacturer {
         this.companyName = companyName;
     }
 
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public Set<Medication> getMedications() {
-        return medications;
-    }
-
-    public void setMedications(Set<Medication> medications) {
-        this.medications = medications;
     }
 
     public void addMedication(Medication medication) {

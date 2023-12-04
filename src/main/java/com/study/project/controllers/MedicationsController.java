@@ -1,10 +1,7 @@
 package com.study.project.controllers;
 
-import com.study.project.models.Illness;
 import com.study.project.models.Manufacturer;
 import com.study.project.models.Medication;
-import com.study.project.repo.ManufacturerRepository;
-import com.study.project.repo.MedicationRepository;
 import com.study.project.services.ManufacturerService;
 import com.study.project.services.MedicationService;
 import org.springframework.beans.factory.annotation.Autowired;

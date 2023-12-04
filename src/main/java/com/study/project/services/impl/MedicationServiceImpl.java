@@ -7,6 +7,7 @@ import com.study.project.models.Symptom;
 import com.study.project.repo.MedicationRepository;
 import com.study.project.services.MedicationService;
 import com.study.project.util.exceptions.IllnessNotFoundException;
+import com.study.project.util.exceptions.MedicationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class MedicationServiceImpl implements MedicationService {
     @Override
     public Medication findById(Long id) {
         Optional<Medication> medication = medicationRepository.findById(id);
-        return medication.orElseThrow(IllnessNotFoundException::new);
+        return medication.orElseThrow(MedicationNotFoundException::new);
     }
 
     @Override

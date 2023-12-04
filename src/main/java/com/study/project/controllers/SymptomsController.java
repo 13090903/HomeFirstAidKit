@@ -1,8 +1,6 @@
 package com.study.project.controllers;
 
-import com.study.project.models.Illness;
 import com.study.project.models.Symptom;
-import com.study.project.repo.SymptomRepository;
 import com.study.project.services.SymptomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

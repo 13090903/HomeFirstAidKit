@@ -5,6 +5,7 @@ import com.study.project.models.Symptom;
 import com.study.project.repo.SymptomRepository;
 import com.study.project.services.SymptomService;
 import com.study.project.util.exceptions.IllnessNotFoundException;
+import com.study.project.util.exceptions.SymptomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class SymptomServiceImpl implements SymptomService {
     @Override
     public Symptom findById(Long id) {
         Optional<Symptom> symptom = symptomRepository.findById(id);
-        return symptom.orElseThrow(IllnessNotFoundException::new);
+        return symptom.orElseThrow(SymptomNotFoundException::new);
     }
 
     @Override

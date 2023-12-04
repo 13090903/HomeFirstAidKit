@@ -1,6 +1,5 @@
 package com.study.project;
 
-import com.study.project.models.Illness;
 import com.study.project.repo.IllnessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

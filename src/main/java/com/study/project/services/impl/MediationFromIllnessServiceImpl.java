@@ -2,11 +2,13 @@ package com.study.project.services.impl;
 
 import com.study.project.models.*;
 import com.study.project.repo.IllnessRepository;
+import com.study.project.repo.MedicationFromIllnessRepository;
 import com.study.project.repo.MedicationRepository;
 import com.study.project.services.MedicationFromIllnessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +22,9 @@ public class MediationFromIllnessServiceImpl implements MedicationFromIllnessSer
 
     @Autowired
     private MedicationRepository medicationRepository;
+
+    @Autowired
+    private MedicationFromIllnessRepository medicationFromIllnessRepository;
 
     @Override
     public Iterable<Medication> findByIllnessId(Long illnessId) {
@@ -41,5 +46,12 @@ public class MediationFromIllnessServiceImpl implements MedicationFromIllnessSer
             illnesses.add(medicationFromIllness.getIllness());
         }
         return illnesses;
+    }
+
+    @Override
+    public MedicationFromIllness create(Long medicationId, Long illnessId) {
+        MedicationFromIllness medicationFromIllness = new MedicationFromIllness(medicationRepository.findById(medicationId).orElseThrow(), illnessRepository.findById(illnessId).orElseThrow());
+        medicationFromIllnessRepository.save(medicationFromIllness);
+        return medicationFromIllness;
     }
 }

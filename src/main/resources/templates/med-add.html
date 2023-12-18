@@ -17,6 +17,15 @@
     <input type="text" name="amount" placeholder="Введите количество таблеток или объем" class="form-control"><br>
     <input type="text" name="manufacturer_name" placeholder="Введите название компании производителя" class="form-control"><br>
     <input type="text" name="manufacturer_country" placeholder="Введите страну производителя" class="form-control"><br>
+    <p>
+      <label>Болезни:
+        <input class="form-check-input mx-2" type="checkbox" name="illnessesBox"
+               th:each="illness : ${illnesses}"
+               th:value="${illness.id}"
+               th:text="${illness.name}"
+        />
+      </label>
+    </p>
     <button type="submit" class="btn btn-success">Добавить</button>
   </form>
 </div>

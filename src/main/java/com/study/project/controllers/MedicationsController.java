@@ -1,7 +1,10 @@
 package com.study.project.controllers;
 
+import com.study.project.models.Illness;
 import com.study.project.models.Manufacturer;
 import com.study.project.models.Medication;
+import com.study.project.models.MedicationFromIllness;
+import com.study.project.services.IllnessService;
 import com.study.project.services.ManufacturerService;
 import com.study.project.services.MedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @Controller
 public class MedicationsController {
@@ -21,6 +25,9 @@ public class MedicationsController {
     private MedicationService medicationService;
     @Autowired
     private ManufacturerService manufacturerService;
+
+    @Autowired
+    private IllnessService illnessService;
 
     @GetMapping("/medications")
     public String medications(Model model) {
@@ -31,11 +38,12 @@ public class MedicationsController {
 
     @GetMapping("/medications/add")
     public String medicationAdd(Model model) {
+        model.addAttribute("illnesses", illnessService.findAll());
         return "med-add";
     }
 
     @PostMapping("/medications/add")
-    public String addMedication(@RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, @RequestParam String manufacturer_name, @RequestParam String manufacturer_country, Model model) {
+    public String addMedication(@RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, @RequestParam String manufacturer_name, @RequestParam String manufacturer_country, @RequestParam(value = "illnessesBox")Long[] illnesses, Model model) {
         Manufacturer manufacturer = manufacturerService.existByParamsOrElseCreate(manufacturer_name, manufacturer_country);
         Medication medication = medicationService.create(name, price, manufacturer, expiration_date, amount);
         return "redirect:/medications";

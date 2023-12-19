@@ -30,7 +30,7 @@ public class Medication {
     private LocalDate expirationDate;
     private Long amount;
 
-    @OneToMany(mappedBy = "medication")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "medication")
     Set<MedicationFromIllness> medicationFromIllnesses  = new HashSet<>();
 
     public Medication() {

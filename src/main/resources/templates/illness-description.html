@@ -14,6 +14,14 @@
     <p th:text="${el.description}"></p>
   </div>
 </div>
+<div class="container mt-5">
+  <h1>Лекарства в вашей аптечке, которые могут помочь</h1>
+  <div th:each="el : ${meds}" class="alert alert-warning mt-2">
+    <p th:text="${el.name}"></p>
+    <p th:text="'Осталось ' + ${el.amount}"></p>
+    <a th:href="'/medications'" class="link-success">Перейти к моим лекарствам</a>
+  </div>
+</div>
 
 <footer th:insert="~{blocks/footer :: footer}"></footer>
 

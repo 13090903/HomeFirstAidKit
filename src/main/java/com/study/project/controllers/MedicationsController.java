@@ -1,11 +1,9 @@
 package com.study.project.controllers;
 
-import com.study.project.models.Illness;
-import com.study.project.models.Manufacturer;
-import com.study.project.models.Medication;
-import com.study.project.models.MedicationFromIllness;
+import com.study.project.models.*;
 import com.study.project.services.IllnessService;
 import com.study.project.services.ManufacturerService;
+import com.study.project.services.MedicationFromIllnessService;
 import com.study.project.services.MedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +25,9 @@ public class MedicationsController {
     private ManufacturerService manufacturerService;
 
     @Autowired
+    private MedicationFromIllnessService medicationFromIllnessService;
+
+    @Autowired
     private IllnessService illnessService;
 
     @GetMapping("/medications")
@@ -46,6 +47,9 @@ public class MedicationsController {
     public String addMedication(@RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, @RequestParam String manufacturer_name, @RequestParam String manufacturer_country, @RequestParam(value = "illnessesBox")Long[] illnesses, Model model) {
         Manufacturer manufacturer = manufacturerService.existByParamsOrElseCreate(manufacturer_name, manufacturer_country);
         Medication medication = medicationService.create(name, price, manufacturer, expiration_date, amount);
+        for (long illnessId : illnesses) {
+            medicationFromIllnessService.create(medication.getId(), illnessId);
+        }
         return "redirect:/medications";
     }
 

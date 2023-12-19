@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -21,8 +20,6 @@ public class MedicationFromIllnessKey implements Serializable {
     @Column(name = "illness_id")
     private Long illnessId;
 
-    public MedicationFromIllnessKey(Long medicationId, Long illnessId) {
-        this.medicationId = medicationId;
-        this.illnessId = illnessId;
+    public MedicationFromIllnessKey() {
     }
 }

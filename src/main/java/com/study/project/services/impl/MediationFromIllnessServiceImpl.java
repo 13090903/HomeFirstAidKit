@@ -5,6 +5,7 @@ import com.study.project.repo.IllnessRepository;
 import com.study.project.repo.MedicationFromIllnessRepository;
 import com.study.project.repo.MedicationRepository;
 import com.study.project.services.MedicationFromIllnessService;
+import com.study.project.util.exceptions.MedicationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,8 +51,15 @@ public class MediationFromIllnessServiceImpl implements MedicationFromIllnessSer
 
     @Override
     public MedicationFromIllness create(Long medicationId, Long illnessId) {
-        MedicationFromIllness medicationFromIllness = new MedicationFromIllness(medicationRepository.findById(medicationId).orElseThrow(), illnessRepository.findById(illnessId).orElseThrow());
-        medicationFromIllnessRepository.save(medicationFromIllness);
-        return medicationFromIllness;
+        Medication medication = medicationRepository.findById(medicationId).orElseThrow();
+        Illness illness = illnessRepository.findById(illnessId).orElseThrow();
+        MedicationFromIllness mi = new MedicationFromIllness(medication, illness);
+        mi.setId(new MedicationFromIllnessKey());
+        mi.getId().setMedicationId(medicationId);
+        mi.getId().setIllnessId(illnessId);
+        medication.getMedicationFromIllnesses().add(mi);
+        illness.getMedicationFromIllnesses().add(mi);
+        medicationFromIllnessRepository.save(mi);
+        return mi;
     }
 }

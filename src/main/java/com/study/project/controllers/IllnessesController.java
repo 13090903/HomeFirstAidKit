@@ -1,7 +1,9 @@
 package com.study.project.controllers;
 
 import com.study.project.models.Illness;
+import com.study.project.models.MedicationFromIllness;
 import com.study.project.services.IllnessService;
+import com.study.project.services.MedicationFromIllnessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,9 @@ public class IllnessesController {
     @Autowired
     private IllnessService illnessService;
 
+    @Autowired
+    private MedicationFromIllnessService medicationFromIllnessService;
+
     @GetMapping("/illnesses")
     public String illnesses(Model model) {
         Iterable<Illness> illnesses = illnessService.findAll();
@@ -25,6 +30,7 @@ public class IllnessesController {
     @GetMapping("/illnesses/{id}")
     public String illnessDescription(@PathVariable(value = "id") long illnessID, Model model) {
         model.addAttribute("illness", illnessService.findById(illnessID));
+        model.addAttribute("meds", medicationFromIllnessService.findByIllnessId(illnessID));
         return "illness-description";
     }
 

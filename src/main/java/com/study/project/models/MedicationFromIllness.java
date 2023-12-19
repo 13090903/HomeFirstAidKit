@@ -26,4 +26,7 @@ public class MedicationFromIllness {
         this.medication = medication;
         this.illness = illness;
     }
+
+    public MedicationFromIllness() {
+    }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.*;
 
 @Controller
 public class MedicationsController {
@@ -56,11 +56,18 @@ public class MedicationsController {
     @GetMapping("/medications/{id}/edit")
     public String medicationEdit(@PathVariable(value = "id") long medicationID, Model model) {
         model.addAttribute("medication", medicationService.findById(medicationID));
+        Iterable<Illness> checkedIllnesses = medicationFromIllnessService.findByMedicationId(medicationID);
+        Set<Long> checked = new HashSet<>();
+        for (Illness illness : checkedIllnesses) {
+            checked.add(illness.getId());
+        }
+        model.addAttribute("checked", checked);
+        model.addAttribute("illnesses", illnessService.findAll());
         return "medication-edit";
     }
 
     @PostMapping("/medications/{id}/edit")
-    public String editMedication(@PathVariable(value = "id") long medicationID, @RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, @RequestParam String manufacturer_name, @RequestParam String manufacturer_country, Model model) {
+    public String editMedication(@PathVariable(value = "id") long medicationID, @RequestParam String name, @RequestParam LocalDate expiration_date, @RequestParam Long price, @RequestParam Long amount, @RequestParam String manufacturer_name, @RequestParam String manufacturer_country, @RequestParam(value = "illnessesBox")Long[] illnesses, Model model) {
         Long manufacturerId = medicationService.findManufacturerByMedicationId(medicationID).getId();
         Manufacturer manufacturer = manufacturerService.findById(manufacturerId);
         manufacturer.removeMedication(medicationService.findById(medicationID));
@@ -69,6 +76,15 @@ public class MedicationsController {
         newManufacturer.addMedication(medicationService.findById(medicationID));
         medicationService.update(medicationID, name, expiration_date, price, amount, newManufacturer);
         manufacturerService.deleteUselessById(manufacturerId);
+        for (Illness illness : medicationFromIllnessService.findByMedicationId(medicationID)) {
+            MedicationFromIllnessKey key = new MedicationFromIllnessKey();
+            key.setMedicationId(medicationID);
+            key.setIllnessId(illness.getId());
+            medicationFromIllnessService.deleteById(key);
+        }
+        for (long illnessId : illnesses) {
+            medicationFromIllnessService.create(medicationID, illnessId);
+        }
         return "redirect:/medications";
     }
 

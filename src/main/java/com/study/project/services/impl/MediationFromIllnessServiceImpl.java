@@ -62,4 +62,10 @@ public class MediationFromIllnessServiceImpl implements MedicationFromIllnessSer
         medicationFromIllnessRepository.save(mi);
         return mi;
     }
+
+    @Override
+    public void deleteById(MedicationFromIllnessKey id) {
+        MedicationFromIllness mi = medicationFromIllnessRepository.findById(id).orElseThrow();
+        medicationFromIllnessRepository.delete(mi);
+    }
 }

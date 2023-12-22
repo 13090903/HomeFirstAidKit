@@ -14,6 +14,13 @@
         <p th:text="${el.description}"></p>
     </div>
 </div>
+<div class="container mt-5">
+    <h1>Болезни, связанные с этим симптомом</h1>
+    <div th:each="el : ${illnesses}" class="alert alert-warning mt-2">
+        <p th:text="${el.name}"></p>
+        <a th:href="'/illnesses/' + ${el.id}" class="link-success">Перейти к болезни</a>
+    </div>
+</div>
 
 <footer th:insert="~{blocks/footer :: footer}"></footer>
 

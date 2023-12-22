@@ -13,6 +13,15 @@
   <form action="/illnesses/add" method="post">
     <input type="text" name="name" placeholder="Введите название" class="form-control"><br>
     <input type="text" name="description" placeholder="Введите описание" class="form-control"><br>
+    <p>
+      <label>Симптомы:
+        <input class="form-check-input mx-2" type="checkbox" name="symptomsBox"
+               th:each="symptom : ${symptoms}"
+               th:value="${symptom.id}"
+               th:text="${symptom.name}"
+        />
+      </label>
+    </p>
     <button type="submit" class="btn btn-success">Добавить</button>
   </form>
 </div>

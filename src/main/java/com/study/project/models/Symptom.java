@@ -21,7 +21,7 @@ public class Symptom {
 
     private String description;
 
-    @OneToMany(mappedBy = "symptom")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "symptom")
     Set<IllnessSymptom> illnessSymptoms  = new HashSet<>();
 
     public Symptom() {

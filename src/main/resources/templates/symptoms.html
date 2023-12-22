@@ -12,7 +12,7 @@
   <h1>Симптомы</h1>
   <div th:each="el : ${symptoms}" class="alert alert-info mt-2">
     <h3 th:text="${el.name}"></h3>
-    <a th:href="'/symptoms/' + ${el.id}" class="btn btn-warning">Детальнее</a>
+    <a th:href="'/symptoms/' + ${el.id}" class="btn btn-success">Детальнее</a>
   </div>
 </div>
 

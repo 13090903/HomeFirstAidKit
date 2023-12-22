@@ -26,4 +26,7 @@ public class IllnessSymptom {
         this.illness = illness;
         this.symptom = symptom;
     }
+
+    public IllnessSymptom() {
+    }
 }

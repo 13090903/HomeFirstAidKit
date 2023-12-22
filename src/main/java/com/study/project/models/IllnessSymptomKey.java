@@ -20,8 +20,6 @@ public class IllnessSymptomKey {
     @Column(name = "symptom_id")
     private Long symptomId;
 
-    public IllnessSymptomKey(Long illnessId, Long symptomId) {
-        this.illnessId = illnessId;
-        this.symptomId = symptomId;
+    public IllnessSymptomKey() {
     }
 }

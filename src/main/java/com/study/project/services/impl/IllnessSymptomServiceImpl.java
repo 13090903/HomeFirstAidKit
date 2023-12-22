@@ -1,9 +1,8 @@
 package com.study.project.services.impl;
 
-import com.study.project.models.Illness;
-import com.study.project.models.IllnessSymptom;
-import com.study.project.models.Symptom;
+import com.study.project.models.*;
 import com.study.project.repo.IllnessRepository;
+import com.study.project.repo.IllnessSymptomRepository;
 import com.study.project.repo.SymptomRepository;
 import com.study.project.services.IllnessSymptomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,10 @@ public class IllnessSymptomServiceImpl implements IllnessSymptomService {
 
     @Autowired
     private SymptomRepository symptomRepository;
+
+    @Autowired
+    private IllnessSymptomRepository illnessSymptomRepository;
+
 
     @Override
     public Iterable<Symptom> findByIllnessId(Long illnessId) {
@@ -43,5 +46,25 @@ public class IllnessSymptomServiceImpl implements IllnessSymptomService {
             illnesses.add(illnessSymptom.getIllness());
         }
         return illnesses;
+    }
+
+    @Override
+    public IllnessSymptom create(Long illnessId, Long symptomId) {
+        Illness illness = illnessRepository.findById(illnessId).orElseThrow();
+        Symptom symptom = symptomRepository.findById(symptomId).orElseThrow();
+        IllnessSymptom is = new IllnessSymptom(illness, symptom);
+        is.setId(new IllnessSymptomKey());
+        is.getId().setIllnessId(illnessId);
+        is.getId().setSymptomId(symptomId);
+        illness.getIllnessSymptoms().add(is);
+        symptom.getIllnessSymptoms().add(is);
+        illnessSymptomRepository.save(is);
+        return is;
+    }
+
+    @Override
+    public void deleteById(IllnessSymptomKey id) {
+        IllnessSymptom is = illnessSymptomRepository.findById(id).orElseThrow();
+        illnessSymptomRepository.delete(is);
     }
 }
